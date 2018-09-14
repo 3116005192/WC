@@ -25,38 +25,32 @@ int main(int argc, char* argv[])
 
 void Line_Count_Out(int c, char* v[])            //计算行数并输出
 {
-	std::ifstream file_stream;
-	char* ch;
-	int words = 0;
-	bool flag = false;
+	std::ifstream file_stream;                   //文件流
+	char* ch = NULL;                             //read函数中的参数需要赋值
+	int lines = 1;
 	for (c -= 1; c > 1; c--)
 	{
-		file_stream.open(v[c], std::ios::in);
-		file_stream.read(ch, 1);
-		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
-		{
-			if (flag == false)
-			{
-				words++;
-				flag = true;
-			}
-		}
-		else flag = false;
-		file_stream.close();
+		file_stream.open(v[c], std::ios::in);    //打开文件 
+		file_stream.read(ch, 1);                 //以字符数组读取每一个字符,每循环一次,指针向下一个字符地址移动一次
+		if (*ch == '\n') lines++;
+		file_stream.close();                     //关闭文件
 	}
-	std::cout << "The amount of word: " << words << std::endl;
+	std::cout << "The amount of line: " << lines << std::endl;
 }
 
 void Word_Count_Out(int c, char* v[])            //计算单词数并输出
 {
 	std::ifstream file_stream;
-	char* ch;
+	char* ch = NULL;
 	int words = 0;
 	bool flag = false;
 	for (c -= 1; c > 1; c--)
 	{
 		file_stream.open(v[c], std::ios::in);
 		file_stream.read(ch, 1);
+		
+		//当字符串中含有的一个字符为字母时,flag = true, 反之, flag = false, 每次由false变为true时, words加一.
+		
 		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
 		{
 			if (flag == false)
@@ -74,7 +68,7 @@ void Word_Count_Out(int c, char* v[])            //计算单词数并输出
 void Char_Count_Out(int c, char* v[])            //计算字符数并输出
 {
 	std::ifstream file_stream;
-	char* ch;
+	char* ch = NULL;
 	int chars = 0;
 	for (c -= 1; c > 1; c--)
 	{
