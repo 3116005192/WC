@@ -25,12 +25,63 @@ int main(int argc, char* argv[])
 
 void Line_Count_Out(int c, char* v[])            //计算行数并输出
 {
+	std::ifstream file_stream;
+	char* ch;
+	int words = 0;
+	bool flag = false;
+	for (c -= 1; c > 1; c--)
+	{
+		file_stream.open(v[c], std::ios::in);
+		file_stream.read(ch, 1);
+		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
+		{
+			if (flag == false)
+			{
+				words++;
+				flag = true;
+			}
+		}
+		else flag = false;
+		file_stream.close();
+	}
+	std::cout << "The amount of word: " << words << std::endl;
 }
 
 void Word_Count_Out(int c, char* v[])            //计算单词数并输出
 {
+	std::ifstream file_stream;
+	char* ch;
+	int words = 0;
+	bool flag = false;
+	for (c -= 1; c > 1; c--)
+	{
+		file_stream.open(v[c], std::ios::in);
+		file_stream.read(ch, 1);
+		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
+		{
+			if (flag == false)
+			{
+				words++;
+				flag = true;
+			}
+		}
+		else flag = false;
+		file_stream.close();
+	}
+	std::cout << "The amount of word: " << words << std::endl;
 }
 
 void Char_Count_Out(int c, char* v[])            //计算字符数并输出
 {
+	std::ifstream file_stream;
+	char* ch;
+	int chars = 0;
+	for (c -= 1; c > 1; c--)
+	{
+		file_stream.open(v[c], std::ios::in);
+		file_stream.read(ch, 1);
+		if (*ch) chars++;
+		file_stream.close();
+	}
+	std::cout << "The amount of char: " << chars << std::endl;
 }
