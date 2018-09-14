@@ -7,7 +7,7 @@ void Char_Count_Out(int, char*[]);
 
 int main(int argc, char* argv[])
 {
-	if (argc == 1 || argc == 2)            //ÎŞÎÄ¼şÃû³Æ
+	if (argc == 1 || argc == 2)            //æ— æ–‡ä»¶åç§°
 		std::cout << "Not found the file_name";
 	if (argc > 3)
 	{
@@ -23,56 +23,14 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void Line_Count_Out(int c, char* v[])            //¼ÆËãĞĞÊı²¢Êä³ö
+void Line_Count_Out(int c, char* v[])            //è®¡ç®—è¡Œæ•°å¹¶è¾“å‡º
 {
-	std::ifstream file_stream;                    //ÎÄ¼şÁ÷
-	char* ch;
-	int lines = 1;
-	for (c -= 1; c > 1; c--)
-	{
-		file_stream.open(v[c], std::ios::in);
-		file_stream.read(ch, 1);
-		if (*ch == '\n') lines++;
-		file_stream.close();
-	}
-	std::cout << "The amount of line: " << lines << std::endl;
 }
 
-void Word_Count_Out(int c, char* v[])            //¼ÆËãµ¥´ÊÊı²¢Êä³ö
+void Word_Count_Out(int c, char* v[])            //è®¡ç®—å•è¯æ•°å¹¶è¾“å‡º
 {
-	std::ifstream file_stream;
-	char* ch;
-	int words = 0;
-	bool flag = false;
-	for (c -= 1; c > 1; c--)
-	{
-		file_stream.open(v[c], std::ios::in);
-		file_stream.read(ch, 1);
-		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
-		{
-			if (flag == false)
-			{
-				words++;
-				flag = true;
-			}
-		}
-		else flag = false;
-		file_stream.close();
-	}
-	std::cout << "The amount of word: " << words << std::endl;
 }
 
-void Char_Count_Out(int c, char* v[])            //¼ÆËã×Ö·ûÊı²¢Êä³ö
+void Char_Count_Out(int c, char* v[])            //è®¡ç®—å­—ç¬¦æ•°å¹¶è¾“å‡º
 {
-	std::ifstream file_stream;
-	char* ch;
-	int chars = 0;
-	for (c -= 1; c > 1; c--)
-	{
-		file_stream.open(v[c], std::ios::in);
-		file_stream.read(ch, 1);
-		if (*ch) chars++;
-		file_stream.close();
-	}
-	std::cout << "The amount of char: " << chars << std::endl;
 }
