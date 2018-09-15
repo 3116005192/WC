@@ -4,12 +4,56 @@
 void Line_Count_Out(int, char*[]);
 void Word_Count_Out(int, char*[]);
 void Char_Count_Out(int, char*[]);
+void Function(char, int []);
 
 int main(int argc, char* argv[])
 {
-	if (argc == 1 || argc == 2)            //无文件名称
-		std::cout << "\nNot found the file_name\n";
-	if (argc > 3)
+	char function_set[10];
+	char file_name[30];
+	std::ifstream file_stream;
+	char *ch = new char[100];
+	int i = 0;
+	bool flag = false;
+	int count[3]{ 0, 0, 1 };       //count[0]:字节数, count[1]:单词数, count[2]:行数
+	
+	std::cout << "Please enter your file_path: ";
+	std::cin >> function_set;
+	std::cin >> file_name;
+	file_stream.open(file_name, std::ios::in);
+	
+	if (!file_stream)
+		std::cout << "\nError.\n";
+	std::cout << "\nThe info of the file:\n";
+	do
+	{
+		file_stream.read(ch, 1);
+		std::cout << *ch;
+
+		if (*ch == '\n')
+			count[2]++;
+
+		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
+		{
+			if (flag == false)
+			{
+				count[1]++;
+				flag = true;
+			}
+		}
+		else flag = false;
+  
+		count[0]++;
+
+	} while (!file_stream.eof());   
+	
+	std::cout << std::endl << std::endl;
+	Function(function_set[1], count);
+
+	if (argc == 1)
+		std::cout << "\nNot found the count_function.\n";
+	if (argc == 2)            //无文件名称
+		std::cout << "\nNot found the file_name.\n";
+	if (argc > 2)
 	{
 		if (argv[1][1] == 'l')
 			Line_Count_Out(argc, argv);
@@ -23,6 +67,21 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+void Function(char ch, int count[])
+{
+	if (ch == 'c')
+		std::cout << "The amount of the char: " << count[0] << std::endl;
+	else if (ch == 'l')
+		std::cout << "The amount of the line: " << count[2] << std::endl;
+	else if (ch == 'w')
+		std::cout << "The amount of the word: " << count[1] << std::endl;
+	else
+	{
+		std::cout << "The amount of the char: " << count[0] << std::endl;
+		std::cout << "The amount of the line: " << count[2] << std::endl;
+		std::cout << "The amount of the word: " << count[1] << std::endl;
+	}
+}
 void Line_Count_Out(int c, char* v[])            //计算行数并输出
 {
 	std::ifstream file_stream;                   //文件流
