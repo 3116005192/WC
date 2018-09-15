@@ -1,55 +1,28 @@
 #include<iostream>
 #include<cstring>
 #include<fstream>
-void Line_Count_Out(int, char*[]);
+/*void Line_Count_Out(int, char*[]);
 void Word_Count_Out(int, char*[]);
-void Char_Count_Out(int, char*[]);
-void Function(char, int []);
+void Char_Count_Out(int, char*[]);*/
+void Function(char, int []);            //查询功能检索(如:"-c"为显示字符数)以及输出(std::cout)
+void Counter_Basic(int[], char[]);
+void Counter_CPP(int[]);
 
 int main(int argc, char* argv[])
 {
 	char function_set[10];
 	char file_name[30];
-	std::ifstream file_stream;
-	char *ch = new char[100];
-	int i = 0;
-	bool flag = false;
-	int count[3]{ 0, 0, 1 };       //count[0]:字节数, count[1]:单词数, count[2]:行数
+	int count[6]{ 0, 0, 1, 0, 0, 0 };       //count[0]:字节数, count[1]:单词数, count[2]:行数.
 	
-	std::cout << "Please enter your file_path: ";
-	std::cin >> function_set;
-	std::cin >> file_name;
-	file_stream.open(file_name, std::ios::in);
+	std::cout << "Please enter your file_path: ";   //输入格式为"? file_path"
+	std::cin >> function_set;                       //'?'为功能设置
+	std::cin >> file_name;                          //"file_path"为文件路径
 	
-	if (!file_stream)
-		std::cout << "\nError.\n";
-	std::cout << "\nThe info of the file:\n";
-	do
-	{
-		file_stream.read(ch, 1);
-		std::cout << *ch;
-
-		if (*ch == '\n')
-			count[2]++;
-
-		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
-		{
-			if (flag == false)
-			{
-				count[1]++;
-				flag = true;
-			}
-		}
-		else flag = false;
-  
-		count[0]++;
-
-	} while (!file_stream.eof());   
+	Counter_Basic(count, file_name);
 	
-	std::cout << std::endl << std::endl;
 	Function(function_set[1], count);
 
-	if (argc == 1)
+/*	if (argc == 1)
 		std::cout << "\nNot found the count_function.\n";
 	if (argc == 2)            //无文件名称
 		std::cout << "\nNot found the file_name.\n";
@@ -61,10 +34,48 @@ int main(int argc, char* argv[])
 			Word_Count_Out(argc, argv);
 		if (argv[1][1] == 'c')
 			Char_Count_Out(argc, argv);
-	}
+	}*/
 	std::cout << std::endl;
 	system("pause");
 	return 0;
+}
+
+void Counter_Basic(int count[], char file_name[])
+{
+
+	std::ifstream file_stream;
+	file_stream.open(file_name, std::ios::in);
+	if (!file_stream)
+		std::cout << "\nError.\n";
+	
+	bool flag_word = false;             //当istream.read指向英文字母时, flag = true, 初始化false方便计算.
+	char *ch = new char[100];
+	std::cout << "\nThe info of the file:\n\n";       //典型的字符、行、单词统计.
+	do
+	{
+		file_stream.read(ch, 1);
+		std::cout << *ch;
+
+		//count[0]:字节数, count[1]:单词数, count[2]:行数.
+
+		if (*ch == '\n')
+			count[2]++;
+
+		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
+		{
+			if (flag_word == false)
+			{
+				count[1]++;
+				flag_word = true;
+			}
+		}
+		else flag_word = false;
+
+		count[0]++;
+
+	} while (!file_stream.eof());
+
+	std::cout << std::endl << std::endl;
 }
 
 void Function(char ch, int count[])
@@ -75,14 +86,9 @@ void Function(char ch, int count[])
 		std::cout << "The amount of the line: " << count[2] << std::endl;
 	else if (ch == 'w')
 		std::cout << "The amount of the word: " << count[1] << std::endl;
-	else
-	{
-		std::cout << "The amount of the char: " << count[0] << std::endl;
-		std::cout << "The amount of the line: " << count[2] << std::endl;
-		std::cout << "The amount of the word: " << count[1] << std::endl;
-	}
+	
 }
-void Line_Count_Out(int c, char* v[])            //计算行数并输出
+/*void Line_Count_Out(int c, char* v[])            //计算行数并输出
 {
 	std::ifstream file_stream;                   //文件流
 	char* ch = NULL;                             //read函数中的参数需要赋值
@@ -146,4 +152,4 @@ void Char_Count_Out(int c, char* v[])            //计算字符数并输出
 		} while (ch == NULL);
 	}
 	std::cout << std::endl << "The amount of char: " << chars << std::endl;
-}
+}*/
