@@ -5,16 +5,15 @@
 void Word_Count_Out(int, char*[]);
 void Char_Count_Out(int, char*[]);*/
 void Function(char, int []);            //查询功能检索(如:"-c"为显示字符数)以及输出(std::cout)
-void Counter_Basic(int[], char[]);
-void Counter_CPP(int[]);
+void Counter_Basic(int[], char[]);      //字符/行/单词/代码行/空行/注释行
 
 int main(int argc, char* argv[])
 {
 	char function_set[10];
 	char file_name[30];
 	int count[6]{ 0, 0, 1, 0, 0, 0 };       //count[0]:字节数, count[1]:单词数, count[2]:行数.
-	
-	std::cout << "Please enter your file_path: ";   //输入格式为"? file_path"
+                                            //count[3]:代码行, count[4]:空行, count[5]:注释行.	
+ 	std::cout << "Please enter your file_path: ";   //输入格式为"? file_path"
 	std::cin >> function_set;                       //'?'为功能设置
 	std::cin >> file_name;                          //"file_path"为文件路径
 	
@@ -22,7 +21,7 @@ int main(int argc, char* argv[])
 	
 	Function(function_set[1], count);
 
-/*	if (argc == 1)
+	/*	if (argc == 1)
 		std::cout << "\nNot found the count_function.\n";
 	if (argc == 2)            //无文件名称
 		std::cout << "\nNot found the file_name.\n";
@@ -48,8 +47,13 @@ void Counter_Basic(int count[], char file_name[])
 	if (!file_stream)
 		std::cout << "\nError.\n";
 	
-	bool flag_word = false;             //当istream.read指向英文字母时, flag = true, 初始化false方便计算.
+	bool flag_word = false;        //当istream.read指向英文字母时, flag_word = true, 初始化false方便计算.
+	bool flag_cppline = false;     //当istream.read指向某一字符时, flag_cppline = false.
+	int flag_explanation = 0;      //当istream.read指向字符'\n'时，flag_explanation加1，大于1表示该行为注释行.
+	int flag_explanation_1 = false, flag_explanation_2 = false;    //指"/*"
+	int flag_explanation_3 = false, flag_explanation_4 = false;    //指"*/"
 	char *ch = new char[100];
+
 	std::cout << "\nThe info of the file:\n\n";       //典型的字符、行、单词统计.
 	do
 	{
@@ -57,9 +61,6 @@ void Counter_Basic(int count[], char file_name[])
 		std::cout << *ch;
 
 		//count[0]:字节数, count[1]:单词数, count[2]:行数.
-
-		if (*ch == '\n')
-			count[2]++;
 
 		if (*ch > 'A' && *ch < 'Z' || *ch > 'a' && *ch < 'z')
 		{
@@ -71,7 +72,11 @@ void Counter_Basic(int count[], char file_name[])
 		}
 		else flag_word = false;
 
-		count[0]++;
+		if (*ch != ' ' && *ch != '\t' && *ch != '\n')
+			count[0]++;
+	
+		if (*ch == '\n')
+			count[2]++;
 
 	} while (!file_stream.eof());
 
